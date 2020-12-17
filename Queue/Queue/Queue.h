@@ -118,7 +118,6 @@ public:
 		}
 		DataCount--;
 		head = (head+1)%MaxSize;
-		
 	}
 
 	T& operator[](int pos)

@@ -43,7 +43,7 @@ namespace MyQueue {
 	private: System::Windows::Forms::Timer^ timer1;
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::TextBox^ textBox6;
-		  
+
 	public:
 		MyForm(void)
 		{
@@ -313,7 +313,7 @@ namespace MyQueue {
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) 
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		MaxSize = Convert::ToInt32(textBox1->Text);
 		Size = Convert::ToInt32(textBox2->Text);
@@ -340,27 +340,33 @@ namespace MyQueue {
 			   int finish = 360 * (pQueue->GetDataCount()) / pQueue->GetSize();
 			   gr->DrawArc(WhitePen, CenterX, CenterY, Width, Height, 0, 360);
 		   }
-private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e)
-{
-	timer1->Enabled = false;
-}
-private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-	Clean();
-	if (rndm1->NextDouble() < p)
+	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		pQueue->Push(1);
-		Size++;
-		PushCount++;
+		timer1->Enabled = false;
 	}
-	if (rndm1->NextDouble() < q)
-	{
-		pQueue->Pop();
-		Size--;
-		PopCount++;
+	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
+		Clean();
+		if (rndm1->NextDouble() < p)
+		{
+			if (Size < MaxSize)
+			{
+				pQueue->Push(1);
+				Size++;
+				PushCount++;
+			}
+		}
+		if (rndm1->NextDouble() < q)
+		{
+			if (Size > 0)
+			{
+				pQueue->Pop();
+				Size--;
+				PopCount++;
+			}
+		}
+		DrawQueue();
+		textBox5->Text = Convert::ToString(PushCount);
+		textBox6->Text = Convert::ToString(PopCount);
 	}
-	DrawQueue();
-	textBox5->Text = Convert::ToString(PushCount);
-	textBox6->Text = Convert::ToString(PopCount);
-}
-};
+	};
 }
